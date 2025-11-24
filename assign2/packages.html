@@ -23,59 +23,19 @@
     <p>Explore our curated selection of travel packages designed to create unforgettable experiences. All packages include accommodation, guided tours, and 24/7 support.</p>
 
     <div class="table-wrapper">
-      <table class="packages-table">
+      <table class="packages-table" id="packagesTable">
         <thead>
           <tr>
             <th>Package Name</th>
             <th>Destination</th>
             <th>Duration</th>
-            <th>Price (per person)</th>
+            <th>Base Price (per person)</th>
+            <th>Final Price</th>
             <th>Highlights</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><strong>Golden Triangle</strong></td>
-            <td>Delhi, Agra, Jaipur</td>
-            <td>6 days / 5 nights</td>
-            <td>₹45,999</td>
-            <td>Taj Mahal, Red Fort, Amber Palace, Qutub Minar</td>
-          </tr>
-          <tr>
-            <td><strong>Kerala Backwaters</strong></td>
-            <td>Kochi, Alleppey, Munnar</td>
-            <td>7 days / 6 nights</td>
-            <td>₹52,999</td>
-            <td>Houseboat cruise, tea plantations, spice gardens, beaches</td>
-          </tr>
-          <tr>
-            <td><strong>Himalayan Adventure</strong></td>
-            <td>Manali, Shimla, Dharamshala</td>
-            <td>8 days / 7 nights</td>
-            <td>₹48,999</td>
-            <td>Mountain views, trekking, monasteries, snow activities</td>
-          </tr>
-          <tr>
-            <td><strong>Goa Beach Paradise</strong></td>
-            <td>North Goa, South Goa</td>
-            <td>5 days / 4 nights</td>
-            <td>₹38,999</td>
-            <td>Beach resorts, water sports, nightlife, Portuguese heritage</td>
-          </tr>
-          <tr>
-            <td><strong>Rajasthan Royalty</strong></td>
-            <td>Udaipur, Jodhpur, Jaisalmer</td>
-            <td>7 days / 6 nights</td>
-            <td>₹55,999</td>
-            <td>Palaces, desert safari, camel rides, cultural shows</td>
-          </tr>
-          <tr>
-            <td><strong>Varanasi Spiritual</strong></td>
-            <td>Varanasi, Sarnath</td>
-            <td>4 days / 3 nights</td>
-            <td>₹28,999</td>
-            <td>Ganga Aarti, temple visits, boat rides, spiritual experience</td>
-          </tr>
+        <tbody id="packagesTableBody">
+          <!-- Table will be rendered by JavaScript -->
         </tbody>
       </table>
     </div>
@@ -96,6 +56,138 @@
   <footer class="site-footer">
     <p>© 2025 VoyageX Travel</p>
   </footer>
+
+  <script>
+    // Array of package objects
+    const packages = [
+      {
+        id: 1,
+        name: "Golden Triangle",
+        destination: "Delhi, Agra, Jaipur",
+        durationDays: 6,
+        durationNights: 5,
+        basePrice: 45999,
+        season: "peak", // peak, off-peak, monsoon
+        highlights: "Taj Mahal, Red Fort, Amber Palace, Qutub Minar"
+      },
+      {
+        id: 2,
+        name: "Kerala Backwaters",
+        destination: "Kochi, Alleppey, Munnar",
+        durationDays: 7,
+        durationNights: 6,
+        basePrice: 52999,
+        season: "peak",
+        highlights: "Houseboat cruise, tea plantations, spice gardens, beaches"
+      },
+      {
+        id: 3,
+        name: "Himalayan Adventure",
+        destination: "Manali, Shimla, Dharamshala",
+        durationDays: 8,
+        durationNights: 7,
+        basePrice: 48999,
+        season: "peak",
+        highlights: "Mountain views, trekking, monasteries, snow activities"
+      },
+      {
+        id: 4,
+        name: "Goa Beach Paradise",
+        destination: "North Goa, South Goa",
+        durationDays: 5,
+        durationNights: 4,
+        basePrice: 38999,
+        season: "off-peak",
+        highlights: "Beach resorts, water sports, nightlife, Portuguese heritage"
+      },
+      {
+        id: 5,
+        name: "Rajasthan Royalty",
+        destination: "Udaipur, Jodhpur, Jaisalmer",
+        durationDays: 7,
+        durationNights: 6,
+        basePrice: 55999,
+        season: "peak",
+        highlights: "Palaces, desert safari, camel rides, cultural shows"
+      },
+      {
+        id: 6,
+        name: "Varanasi Spiritual",
+        destination: "Varanasi, Sarnath",
+        durationDays: 4,
+        durationNights: 3,
+        basePrice: 28999,
+        season: "off-peak",
+        highlights: "Ganga Aarti, temple visits, boat rides, spiritual experience"
+      }
+    ];
+
+    // Function to calculate final price using operators and control flow
+    function calculateFinalPrice(pkg) {
+      let finalPrice = pkg.basePrice;
+      const today = new Date();
+      const dayOfWeek = today.getDay(); // 0 = Sunday, 6 = Saturday
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+      // Seasonal multiplier using if/else
+      if (pkg.season === "peak") {
+        finalPrice = finalPrice * 1.15; // 15% increase for peak season
+      } else if (pkg.season === "monsoon") {
+        finalPrice = finalPrice * 0.85; // 15% discount for monsoon
+      }
+      // off-peak remains at base price
+
+      // Weekend surcharge using if statement
+      if (isWeekend) {
+        finalPrice = finalPrice * 1.10; // 10% weekend surcharge
+      }
+
+      return Math.round(finalPrice);
+    }
+
+    // Function to render packages table using loops
+    function renderPackagesTable() {
+      const tbody = document.getElementById('packagesTableBody');
+      tbody.innerHTML = ''; // Clear existing content
+
+      // Loop through packages array
+      for (let i = 0; i < packages.length; i++) {
+        const pkg = packages[i];
+        const finalPrice = calculateFinalPrice(pkg);
+
+        // Create table row
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><strong>${pkg.name}</strong></td>
+          <td>${pkg.destination}</td>
+          <td>${pkg.durationDays} days / ${pkg.durationNights} nights</td>
+          <td>₹${pkg.basePrice.toLocaleString('en-IN')}</td>
+          <td><strong>₹${finalPrice.toLocaleString('en-IN')}</strong></td>
+          <td>${pkg.highlights}</td>
+        `;
+        tbody.appendChild(row);
+      }
+    }
+
+    // Initialize table on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      renderPackagesTable();
+      highlightActiveNav();
+    });
+
+    // Function to highlight active nav link
+    function highlightActiveNav() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav a');
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    }
+  </script>
 </body>
 </html>
 

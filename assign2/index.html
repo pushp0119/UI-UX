@@ -47,6 +47,26 @@
   <footer class="site-footer">
     <p>© 2025 VoyageX Travel</p>
   </footer>
+
+  <script>
+    // Function to highlight active nav link
+    function highlightActiveNav() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav a');
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      highlightActiveNav();
+    });
+  </script>
 </body>
 </html>
 

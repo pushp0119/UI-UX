@@ -84,12 +84,43 @@
       </div>
 
       <div class="form-row">
+        <label for="promoCode">Promo Code (Optional)</label>
+        <input type="text" id="promoCode" name="promoCode" placeholder="Enter promo code">
+      </div>
+
+      <div class="form-row">
         <label for="notes">Special Requests</label>
         <textarea id="notes" name="notes" rows="4" placeholder="Allergies, late check-in, etc."></textarea>
       </div>
 
+      <div class="price-estimator" id="priceEstimator" style="display: none;">
+        <h3>Price Estimate</h3>
+        <div class="price-breakdown">
+          <div class="price-item">
+            <span>Base Price:</span>
+            <span id="basePriceDisplay">₹0</span>
+          </div>
+          <div class="price-item">
+            <span>Nights:</span>
+            <span id="nightsDisplay">0</span>
+          </div>
+          <div class="price-item">
+            <span>Guests Adjustment:</span>
+            <span id="guestsAdjustment">₹0</span>
+          </div>
+          <div class="price-item">
+            <span>Promo Discount:</span>
+            <span id="promoDiscount">₹0</span>
+          </div>
+          <div class="price-item total">
+            <span><strong>Estimated Total:</strong></span>
+            <span id="totalPrice"><strong>₹0</strong></span>
+          </div>
+        </div>
+      </div>
+
       <div class="form-row">
-        <button type="submit" class="btn-primary">Submit Booking</button>
+        <button type="submit" class="btn-primary" id="submitBtn">Submit Booking</button>
       </div>
     </form>
   </main>
@@ -97,6 +128,230 @@
   <footer class="site-footer">
     <p>© 2025 VoyageX Travel</p>
   </footer>
+
+  <script>
+    // Package prices object
+    const packagePrices = {
+      "Golden Triangle": 45999,
+      "Kerala Backwaters": 52999,
+      "Himalayan Adventure": 48999,
+      "Goa Beach Paradise": 38999,
+      "Rajasthan Royalty": 55999,
+      "Varanasi Spiritual": 28999
+    };
+
+    // Get form elements
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const packageSelect = document.getElementById('package');
+    const adultsInput = document.getElementById('adults');
+    const childrenInput = document.getElementById('children');
+    const promoCodeInput = document.getElementById('promoCode');
+    const submitBtn = document.getElementById('submitBtn');
+    const priceEstimator = document.getElementById('priceEstimator');
+
+    // Function to calculate nights using Date math
+    function calculateNights(checkIn, checkOut) {
+      if (!checkIn || !checkOut) return 0;
+      const start = new Date(checkIn);
+      const end = new Date(checkOut);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    }
+
+    // Function to apply promo code discount using switch/case
+    function getPromoDiscount(promoCode, baseTotal) {
+      if (!promoCode) return 0;
+      
+      const code = promoCode.toUpperCase().trim();
+      let discount = 0;
+      
+      switch(code) {
+        case "EARLYBIRD":
+          discount = baseTotal * 0.10; // 10% discount
+          break;
+        case "SUMMER20":
+          discount = baseTotal * 0.20; // 20% discount
+          break;
+        case "WELCOME10":
+          discount = baseTotal * 0.10; // 10% discount
+          break;
+        case "SAVE15":
+          discount = baseTotal * 0.15; // 15% discount
+          break;
+        default:
+          discount = 0;
+      }
+      
+      return Math.round(discount);
+    }
+
+    // Function to calculate estimated total
+    function calculatePrice() {
+      const packageName = packageSelect.value;
+      const checkIn = startDateInput.value;
+      const checkOut = endDateInput.value;
+      const adults = parseInt(adultsInput.value) || 0;
+      const children = parseInt(childrenInput.value) || 0;
+      const promoCode = promoCodeInput.value;
+
+      // Validate required fields
+      if (!packageName || !checkIn || !checkOut || adults === 0) {
+        priceEstimator.style.display = 'none';
+        return;
+      }
+
+      // Calculate nights using Date math
+      const nights = calculateNights(checkIn, checkOut);
+      if (nights <= 0) {
+        priceEstimator.style.display = 'none';
+        return;
+      }
+
+      // Get base price per person
+      const basePricePerPerson = packagePrices[packageName] || 0;
+      const totalGuests = adults + children;
+
+      // Calculate base total
+      let baseTotal = basePricePerPerson * totalGuests;
+
+      // Guests multiplier: +20% if more than 2 guests
+      let guestsAdjustment = 0;
+      if (totalGuests > 2) {
+        guestsAdjustment = baseTotal * 0.20;
+        baseTotal = baseTotal + guestsAdjustment;
+      }
+
+      // Apply promo code discount using switch/case
+      const promoDiscount = getPromoDiscount(promoCode, baseTotal);
+      const finalTotal = baseTotal - promoDiscount;
+
+      // Display price breakdown
+      document.getElementById('basePriceDisplay').textContent = `₹${(basePricePerPerson * totalGuests).toLocaleString('en-IN')}`;
+      document.getElementById('nightsDisplay').textContent = `${nights} nights`;
+      document.getElementById('guestsAdjustment').textContent = guestsAdjustment > 0 ? `+₹${guestsAdjustment.toLocaleString('en-IN')}` : '₹0';
+      document.getElementById('promoDiscount').textContent = promoDiscount > 0 ? `-₹${promoDiscount.toLocaleString('en-IN')}` : '₹0';
+      document.getElementById('totalPrice').innerHTML = `<strong>₹${finalTotal.toLocaleString('en-IN')}</strong>`;
+
+      priceEstimator.style.display = 'block';
+    }
+
+    // Function to validate form
+    function validateForm() {
+      const fullName = document.getElementById('fullName').value.trim();
+      const startDate = startDateInput.value;
+      const endDate = endDateInput.value;
+      const destination = document.getElementById('destination').value;
+      const packageName = packageSelect.value;
+      const adults = parseInt(adultsInput.value) || 0;
+
+      let isValid = true;
+
+      // Validate name
+      if (fullName === '') {
+        isValid = false;
+      }
+
+      // Validate dates
+      if (!startDate || !endDate) {
+        isValid = false;
+      } else {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (end <= start) {
+          isValid = false;
+        }
+      }
+
+      // Validate destination and package
+      if (!destination || !packageName) {
+        isValid = false;
+      }
+
+      // Validate adults
+      if (adults < 1) {
+        isValid = false;
+      }
+
+      // Enable/disable submit button
+      submitBtn.disabled = !isValid;
+      if (!isValid) {
+        submitBtn.style.opacity = '0.5';
+        submitBtn.style.cursor = 'not-allowed';
+      } else {
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+      }
+
+      return isValid;
+    }
+
+    // Add event listeners for real-time price calculation
+    startDateInput.addEventListener('change', function() {
+      calculatePrice();
+      validateForm();
+    });
+
+    endDateInput.addEventListener('change', function() {
+      calculatePrice();
+      validateForm();
+    });
+
+    packageSelect.addEventListener('change', function() {
+      calculatePrice();
+      validateForm();
+    });
+
+    adultsInput.addEventListener('input', function() {
+      calculatePrice();
+      validateForm();
+    });
+
+    childrenInput.addEventListener('input', function() {
+      calculatePrice();
+    });
+
+    promoCodeInput.addEventListener('input', function() {
+      calculatePrice();
+    });
+
+    // Validate on form input
+    document.getElementById('fullName').addEventListener('input', validateForm);
+    document.getElementById('destination').addEventListener('change', validateForm);
+
+    // Form submission
+    document.querySelector('.booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (validateForm()) {
+        alert('Booking submitted successfully!');
+        this.reset();
+        priceEstimator.style.display = 'none';
+        validateForm();
+      } else {
+        alert('Please fill in all required fields correctly.');
+      }
+    });
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      validateForm();
+      highlightActiveNav();
+    });
+
+    // Function to highlight active nav link
+    function highlightActiveNav() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav a');
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    }
+  </script>
 </body>
 </html>
 
