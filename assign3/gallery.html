@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - TechFest 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">TechFest 2025</div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="register.html">Register</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Photo Gallery</h1>
+    <p>Relive the amazing moments from TechFest. Check out photos from current and previous year events.</p>
+
+    <div class="gallery-tabs">
+      <button class="tab-btn active" onclick="showGallery('current')">Current Year</button>
+      <button class="tab-btn" onclick="showGallery('previous')">Previous Year</button>
+    </div>
+
+    <div id="current" class="gallery-content active">
+      <h2>TechFest 2025 Gallery</h2>
+      <div class="gallery-grid">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop" alt="TechFest inauguration ceremony">
+          <figcaption>Inauguration Ceremony</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop" alt="Coding competition in progress">
+          <figcaption>Coding Competition</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop" alt="Robotics competition">
+          <figcaption>Robotics Arena</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Hackathon participants">
+          <figcaption>Hackathon 24/7</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop" alt="Workshop session">
+          <figcaption>Workshop Session</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop" alt="E-Sports tournament">
+          <figcaption>E-Sports Tournament</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=300&fit=crop" alt="Exhibition hall">
+          <figcaption>Startup Expo</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=300&fit=crop" alt="Keynote speaker">
+          <figcaption>Keynote Address</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=300&fit=crop" alt="Cultural performance">
+          <figcaption>Cultural Performance</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&h=300&fit=crop" alt="Prize distribution">
+          <figcaption>Prize Distribution</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop" alt="Networking session">
+          <figcaption>Networking Session</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop" alt="Closing ceremony">
+          <figcaption>Closing Ceremony</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div id="previous" class="gallery-content">
+      <h2>TechFest 2024 Gallery</h2>
+      <p class="gallery-intro">Take a look back at the amazing moments from last year's TechFest.</p>
+      <div class="gallery-grid">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=300&fit=crop" alt="TechFest 2024 opening">
+          <figcaption>TechFest 2024 Opening</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop" alt="Previous year competition">
+          <figcaption>Competition Highlights</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop" alt="Previous year winners">
+          <figcaption>2024 Winners</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop" alt="Previous year expo">
+          <figcaption>Innovation Expo 2024</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop" alt="Previous year workshop">
+          <figcaption>Workshop 2024</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop" alt="Previous year cultural">
+          <figcaption>Cultural Night 2024</figcaption>
+        </figure>
+      </div>
+      <div class="gallery-link">
+        <a href="https://gallery.techfest2024.example" class="btn-secondary" target="_blank">View Full 2024 Gallery</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 TechFest. All rights reserved.</p>
+    <p>Organized by CCS, TIET</p>
+  </footer>
+
+  <script>
+    function showGallery(gallery) {
+      // Hide all gallery contents
+      const contents = document.querySelectorAll('.gallery-content');
+      contents.forEach(content => content.classList.remove('active'));
+      
+      // Remove active class from all buttons
+      const buttons = document.querySelectorAll('.gallery-tabs .tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      // Show selected gallery
+      document.getElementById(gallery).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
+

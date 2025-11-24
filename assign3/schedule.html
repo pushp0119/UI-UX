@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule - TechFest 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">TechFest 2025</div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="schedule.html" class="active">Schedule</a>
+      <a href="register.html">Register</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Event Schedule</h1>
+    <p>Plan your TechFest experience with our detailed schedule. All timings are in IST (Indian Standard Time).</p>
+
+    <div class="schedule-tabs">
+      <button class="tab-btn active" onclick="showDay('day1')">Day 1 - March 15</button>
+      <button class="tab-btn" onclick="showDay('day2')">Day 2 - March 16</button>
+      <button class="tab-btn" onclick="showDay('day3')">Day 3 - March 17</button>
+    </div>
+
+    <div id="day1" class="tab-content active">
+      <div class="table-wrapper">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Event</th>
+              <th>Venue</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>09:00 - 10:00</td>
+              <td>Inauguration Ceremony</td>
+              <td>Main Auditorium</td>
+              <td>Opening</td>
+            </tr>
+            <tr>
+              <td>10:00 - 11:00</td>
+              <td>Keynote: Future of AI</td>
+              <td>Main Auditorium</td>
+              <td>Seminar</td>
+            </tr>
+            <tr>
+              <td>11:00 - 13:00</td>
+              <td>Code Marathon - Round 1</td>
+              <td>Computer Lab A</td>
+              <td>Programming</td>
+            </tr>
+            <tr>
+              <td>11:00 - 14:00</td>
+              <td>Hackathon 24/7 - Starts</td>
+              <td>Innovation Hub</td>
+              <td>Programming</td>
+            </tr>
+            <tr>
+              <td>13:00 - 14:00</td>
+              <td>Lunch Break</td>
+              <td>Cafeteria</td>
+              <td>Break</td>
+            </tr>
+            <tr>
+              <td>14:00 - 16:00</td>
+              <td>Robo Race - Qualifiers</td>
+              <td>Robotics Arena</td>
+              <td>Robotics</td>
+            </tr>
+            <tr>
+              <td>14:00 - 17:00</td>
+              <td>Web Design Contest</td>
+              <td>Computer Lab B</td>
+              <td>Web Dev</td>
+            </tr>
+            <tr>
+              <td>16:00 - 18:00</td>
+              <td>E-Sports Tournament - Day 1</td>
+              <td>Gaming Zone</td>
+              <td>Gaming</td>
+            </tr>
+            <tr>
+              <td>18:00 - 19:00</td>
+              <td>Cultural Performance</td>
+              <td>Open Air Theatre</td>
+              <td>Entertainment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="day2" class="tab-content">
+      <div class="table-wrapper">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Event</th>
+              <th>Venue</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>09:00 - 11:00</td>
+              <td>Code Marathon - Finals</td>
+              <td>Computer Lab A</td>
+              <td>Programming</td>
+            </tr>
+            <tr>
+              <td>09:00 - 12:00</td>
+              <td>App Development Contest</td>
+              <td>Computer Lab C</td>
+              <td>Mobile Dev</td>
+            </tr>
+            <tr>
+              <td>10:00 - 12:00</td>
+              <td>Workshop: Cloud Computing</td>
+              <td>Seminar Hall 1</td>
+              <td>Workshop</td>
+            </tr>
+            <tr>
+              <td>11:00 - 13:00</td>
+              <td>Robo Race - Finals</td>
+              <td>Robotics Arena</td>
+              <td>Robotics</td>
+            </tr>
+            <tr>
+              <td>13:00 - 14:00</td>
+              <td>Lunch Break</td>
+              <td>Cafeteria</td>
+              <td>Break</td>
+            </tr>
+            <tr>
+              <td>14:00 - 16:00</td>
+              <td>Tech Quiz - Prelims</td>
+              <td>Seminar Hall 2</td>
+              <td>Quiz</td>
+            </tr>
+            <tr>
+              <td>14:00 - 17:00</td>
+              <td>IoT Innovation Showcase</td>
+              <td>Exhibition Hall</td>
+              <td>Hardware</td>
+            </tr>
+            <tr>
+              <td>16:00 - 18:00</td>
+              <td>E-Sports Tournament - Finals</td>
+              <td>Gaming Zone</td>
+              <td>Gaming</td>
+            </tr>
+            <tr>
+              <td>18:00 - 19:00</td>
+              <td>Paper Presentation Session</td>
+              <td>Seminar Hall 1</td>
+              <td>Academic</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="day3" class="tab-content">
+      <div class="table-wrapper">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Event</th>
+              <th>Venue</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>09:00 - 10:00</td>
+              <td>Hackathon 24/7 - Presentations</td>
+              <td>Innovation Hub</td>
+              <td>Programming</td>
+            </tr>
+            <tr>
+              <td>10:00 - 12:00</td>
+              <td>Startup Expo</td>
+              <td>Exhibition Hall</td>
+              <td>Exhibition</td>
+            </tr>
+            <tr>
+              <td>10:00 - 12:00</td>
+              <td>Tech Quiz - Finals</td>
+              <td>Main Auditorium</td>
+              <td>Quiz</td>
+            </tr>
+            <tr>
+              <td>12:00 - 13:00</td>
+              <td>Industry Leader Panel Discussion</td>
+              <td>Main Auditorium</td>
+              <td>Seminar</td>
+            </tr>
+            <tr>
+              <td>13:00 - 14:00</td>
+              <td>Lunch Break</td>
+              <td>Cafeteria</td>
+              <td>Break</td>
+            </tr>
+            <tr>
+              <td>14:00 - 16:00</td>
+              <td>Photography & Design Contest Results</td>
+              <td>Art Gallery</td>
+              <td>Creative</td>
+            </tr>
+            <tr>
+              <td>16:00 - 17:00</td>
+              <td>Prize Distribution Ceremony</td>
+              <td>Main Auditorium</td>
+              <td>Closing</td>
+            </tr>
+            <tr>
+              <td>17:00 - 18:00</td>
+              <td>Closing Ceremony</td>
+              <td>Main Auditorium</td>
+              <td>Closing</td>
+            </tr>
+            <tr>
+              <td>18:00 - 20:00</td>
+              <td>Farewell Party</td>
+              <td>Open Air Theatre</td>
+              <td>Entertainment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="results-section">
+      <h2>Previous Year Results</h2>
+      <div class="table-wrapper">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>1st Place</th>
+              <th>2nd Place</th>
+              <th>3rd Place</th>
+              <th>Prize Money</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Code Marathon</td>
+              <td>Team Alpha (IIT Delhi)</td>
+              <td>Team Beta (NIT Trichy)</td>
+              <td>Team Gamma (BITS Pilani)</td>
+              <td>₹50,000 / ₹30,000 / ₹20,000</td>
+            </tr>
+            <tr>
+              <td>Hackathon 24/7</td>
+              <td>Team Innovators (IIT Bombay)</td>
+              <td>Team Creators (IIIT Hyderabad)</td>
+              <td>Team Builders (VIT Vellore)</td>
+              <td>₹75,000 / ₹50,000 / ₹25,000</td>
+            </tr>
+            <tr>
+              <td>Robo Race</td>
+              <td>Team RoboTech (IIT Kanpur)</td>
+              <td>Team MechMasters (NIT Surathkal)</td>
+              <td>Team AutoBot (IIT Madras)</td>
+              <td>₹40,000 / ₹25,000 / ₹15,000</td>
+            </tr>
+            <tr>
+              <td>Web Design Contest</td>
+              <td>Team WebWizards (IIIT Bangalore)</td>
+              <td>Team DesignPro (IIT Roorkee)</td>
+              <td>Team UIExperts (NIT Warangal)</td>
+              <td>₹35,000 / ₹20,000 / ₹10,000</td>
+            </tr>
+            <tr>
+              <td>E-Sports Tournament</td>
+              <td>Team ProGamers (IIT Delhi)</td>
+              <td>Team Elite (IIT Bombay)</td>
+              <td>Team Champions (NIT Calicut)</td>
+              <td>₹60,000 / ₹40,000 / ₹20,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 TechFest. All rights reserved.</p>
+    <p>Organized by CCS, TIET</p>
+  </footer>
+
+  <script>
+    function showDay(day) {
+      // Hide all tab contents
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+      
+      // Remove active class from all buttons
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      // Show selected day
+      document.getElementById(day).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
+

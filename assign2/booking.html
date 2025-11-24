@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoyageX Travel - Booking</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">VoyageX Travel</div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="packages.html">Packages</a>
+      <a href="booking.html" class="active">Booking</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Book Your Trip</h1>
+    <form class="booking-form">
+      <div class="form-row">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Rajesh Kumar" required>
+      </div>
+
+      <div class="form-row grid-2">
+        <div>
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" name="startDate" required>
+        </div>
+        <div>
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" name="endDate" required>
+        </div>
+      </div>
+
+      <div class="form-row grid-2">
+        <div>
+          <label for="destination">Destination</label>
+          <select id="destination" name="destination" required>
+            <option value="" selected disabled>Select destination</option>
+            <option>Delhi, Agra, Jaipur</option>
+            <option>Kochi, Alleppey, Munnar</option>
+            <option>Manali, Shimla, Dharamshala</option>
+            <option>North Goa, South Goa</option>
+            <option>Udaipur, Jodhpur, Jaisalmer</option>
+            <option>Varanasi, Sarnath</option>
+          </select>
+        </div>
+        <div>
+          <label for="package">Package</label>
+          <select id="package" name="package" required>
+            <option value="" selected disabled>Select package</option>
+            <option>Golden Triangle</option>
+            <option>Kerala Backwaters</option>
+            <option>Himalayan Adventure</option>
+            <option>Goa Beach Paradise</option>
+            <option>Rajasthan Royalty</option>
+            <option>Varanasi Spiritual</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row grid-3">
+        <div>
+          <label for="adults">Adults</label>
+          <input type="number" id="adults" name="adults" min="1" value="2" required>
+        </div>
+        <div>
+          <label for="children">Children</label>
+          <input type="number" id="children" name="children" min="0" value="0">
+        </div>
+        <div>
+          <label for="roomType">Room Type</label>
+          <select id="roomType" name="roomType">
+            <option>Standard</option>
+            <option>Deluxe</option>
+            <option>Suite</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="notes">Special Requests</label>
+        <textarea id="notes" name="notes" rows="4" placeholder="Allergies, late check-in, etc."></textarea>
+      </div>
+
+      <div class="form-row">
+        <button type="submit" class="btn-primary">Submit Booking</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 VoyageX Travel</p>
+  </footer>
+</body>
+</html>
+
+
+
