@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 20px; line-height: 1.5; }
+    h1 { margin-bottom: 12px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    form { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 16px; }
+    input[type="text"], textarea { padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; }
+    textarea { resize: vertical; min-height: 80px; }
+    button { padding: 8px 12px; border: 0; background: #2563eb; color: #fff; border-radius: 6px; cursor: pointer; }
+    button[disabled] { opacity: 0.6; cursor: not-allowed; }
+    .list { display: grid; gap: 10px; }
+    .task { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; display: grid; gap: 8px; background: #fff; }
+    .task-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .task-title { font-size: 1.05rem; font-weight: 600; margin: 0; }
+    .task-desc { margin: 0; color: #374151; }
+    .task-actions { display: flex; gap: 8px; }
+    .task-actions button { background: #111827; }
+    .task-actions .danger { background: #b91c1c; }
+    .completed .task-title, .completed .task-desc { text-decoration: line-through; color: #6b7280; }
+    .muted { color: #6b7280; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <form id="todo-form" autocomplete="off">
+      <input id="title" type="text" placeholder="Task title" required>
+      <textarea id="description" placeholder="Task description (optional)"></textarea>
+      <button id="add-btn" type="submit" disabled>Add Task</button>
+      <div class="muted">Enter a title to enable Add Task. You can edit or mark complete later.</div>
+    </form>
+
+    <div id="task-list" class="list" aria-live="polite"></div>
+  </div>
+
+  <script>
+    // Array of task objects to store all tasks
+    let tasks = [];
+    
+    // Variables for DOM elements
+    const form = document.getElementById('todo-form');
+    const titleInput = document.getElementById('title');
+    const descInput = document.getElementById('description');
+    const addBtn = document.getElementById('add-btn');
+    const list = document.getElementById('task-list');
+
+    // Filter buttons (will be created dynamically)
+    let filterButtons = null;
+
+    // Initialize filter buttons
+    function initFilters() {
+      const filterContainer = document.createElement('div');
+      filterContainer.className = 'filters';
+      filterContainer.style.cssText = 'display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;';
+      
+      const filters = [
+        { id: 'all', label: 'All Tasks', filter: 'all' },
+        { id: 'active', label: 'Active', filter: 'active' },
+        { id: 'completed', label: 'Completed', filter: 'completed' },
+        { id: 'priority', label: 'High Priority', filter: 'priority' }
+      ];
+
+      filters.forEach(({ id, label, filter }) => {
+        const btn = document.createElement('button');
+        btn.id = `filter-${id}`;
+        btn.textContent = label;
+        btn.dataset.filter = filter;
+        btn.style.cssText = 'padding: 6px 12px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer;';
+        if (id === 'all') {
+          btn.style.background = '#2563eb';
+          btn.style.color = '#fff';
+          btn.style.borderColor = '#2563eb';
+        }
+        btn.addEventListener('click', () => applyFilter(filter, btn));
+        filterContainer.appendChild(btn);
+      });
+
+      const sortBtn = document.createElement('button');
+      sortBtn.textContent = 'Sort by Date';
+      sortBtn.style.cssText = 'padding: 6px 12px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; margin-left: auto;';
+      sortBtn.addEventListener('click', sortTasks);
+      filterContainer.appendChild(sortBtn);
+
+      form.parentNode.insertBefore(filterContainer, list);
+      filterButtons = filterContainer.querySelectorAll('button[data-filter]');
+    }
+
+    // Function to validate form using control flow
+    function validateForm() {
+      const title = titleInput.value.trim();
+      const isValid = title.length > 0;
+      
+      // Enable/disable Add button based on validation
+      addBtn.disabled = !isValid;
+      
+      // Style updates via JS
+      if (isValid) {
+        titleInput.style.borderColor = '#10b981';
+      } else {
+        titleInput.style.borderColor = '#d1d5db';
+      }
+      
+      return isValid;
+    }
+
+    // Enable/disable Add button based on title presence
+    titleInput.addEventListener('input', validateForm);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = titleInput.value.trim();
+      const description = descInput.value.trim();
+      
+      // Form validation using control flow
+      if (!validateForm()) {
+        titleInput.focus();
+        return;
+      }
+      
+      // Create task object
+      const taskObj = {
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+        title: title,
+        description: description,
+        completed: false,
+        priority: false,
+        createdAt: new Date().toISOString()
+      };
+      
+      // Add to tasks array
+      tasks.unshift(taskObj);
+      
+      // Render all tasks using loop
+      renderTasks();
+      
+      form.reset();
+      addBtn.disabled = true;
+      titleInput.focus();
+    });
+
+    // Function to add task to array and render
+    function addTask({ title, description }) {
+      const taskObj = {
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+        title: title,
+        description: description,
+        completed: false,
+        priority: false,
+        createdAt: new Date().toISOString()
+      };
+      
+      tasks.unshift(taskObj);
+      renderTasks();
+    }
+
+    // Function to render tasks using loops
+    function renderTasks(filterType = 'all') {
+      list.innerHTML = '';
+      
+      // Filter tasks using control flow
+      let filteredTasks = [];
+      
+      switch(filterType) {
+        case 'active':
+          filteredTasks = tasks.filter(task => !task.completed);
+          break;
+        case 'completed':
+          filteredTasks = tasks.filter(task => task.completed);
+          break;
+        case 'priority':
+          filteredTasks = tasks.filter(task => task.priority);
+          break;
+        default:
+          filteredTasks = tasks;
+      }
+      
+      // Loop through filtered tasks to render
+      for (let i = 0; i < filteredTasks.length; i++) {
+        const taskObj = filteredTasks[i];
+        const task = document.createElement('div');
+        task.className = 'task';
+        
+        // Set data attributes
+        task.dataset.id = taskObj.id;
+        task.dataset.completed = taskObj.completed;
+        task.dataset.priority = taskObj.priority;
+        task.dataset.createdAt = taskObj.createdAt;
+        
+        // Style updates via JS based on task state
+        if (taskObj.completed) {
+          task.classList.add('completed');
+        }
+        if (taskObj.priority) {
+          task.style.borderLeft = '4px solid #f59e0b';
+        }
+        
+        task.innerHTML = `
+          <div class="task-header">
+            <h3 class="task-title">${escapeHtml(taskObj.title)}</h3>
+            <div class="task-actions">
+              <button type="button" class="priority" data-priority="${taskObj.priority}">
+                ${taskObj.priority ? '⭐ High Priority' : '⭐ Set Priority'}
+              </button>
+              <button type="button" class="toggle">
+                ${taskObj.completed ? 'Mark as Incomplete' : 'Mark as Completed'}
+              </button>
+              <button type="button" class="edit">Edit</button>
+              <button type="button" class="delete danger">Delete</button>
+            </div>
+          </div>
+          <p class="task-desc">${escapeHtml(taskObj.description)}</p>
+          <div class="muted" style="margin-top: 8px;">
+            Created: ${new Date(taskObj.createdAt).toLocaleString()}
+          </div>
+        `;
+        list.appendChild(task);
+      }
+      
+      // Update task count
+      updateTaskCount();
+    }
+
+    // Function to update task count
+    function updateTaskCount() {
+      const countEl = document.getElementById('task-count');
+      if (!countEl) {
+        const countDiv = document.createElement('div');
+        countDiv.id = 'task-count';
+        countDiv.className = 'muted';
+        countDiv.style.cssText = 'margin-bottom: 16px; padding: 8px; background: #f3f4f6; border-radius: 6px;';
+        list.parentNode.insertBefore(countDiv, list);
+      }
+      
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      const active = total - completed;
+      
+      document.getElementById('task-count').textContent = 
+        `Total: ${total} | Active: ${active} | Completed: ${completed}`;
+    }
+
+    // Function to apply filter using control flow
+    function applyFilter(filterType, activeButton) {
+      // Style updates via JS - update active filter button
+      filterButtons.forEach(btn => {
+        btn.style.background = '#fff';
+        btn.style.color = '#111827';
+        btn.style.borderColor = '#d1d5db';
+      });
+      
+      activeButton.style.background = '#2563eb';
+      activeButton.style.color = '#fff';
+      activeButton.style.borderColor = '#2563eb';
+      
+      renderTasks(filterType);
+    }
+
+    // Function to sort tasks
+    function sortTasks() {
+      // Sort by creation date (newest first)
+      tasks.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      
+      // Get current filter
+      const activeFilter = document.querySelector('.filters button[style*="background: rgb(37, 99, 235)"]');
+      const filterType = activeFilter ? activeFilter.dataset.filter : 'all';
+      
+      renderTasks(filterType);
+    }
+
+    // Event delegation for task actions
+    list.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const task = e.target.closest('.task');
+      if (!task) return;
+      
+      // Read data-id attribute
+      const taskId = task.dataset.id;
+      
+      // Control flow for different button actions
+      if (btn.classList.contains('priority')) {
+        togglePriority(task, btn, taskId);
+      } else if (btn.classList.contains('toggle')) {
+        toggleComplete(task, btn, taskId);
+      } else if (btn.classList.contains('delete')) {
+        deleteTask(task, taskId);
+      } else if (btn.classList.contains('edit')) {
+        toggleEdit(task, btn);
+      } else if (btn.classList.contains('save')) {
+        saveEdit(task, btn, taskId);
+      }
+    });
+
+    // Function to toggle priority
+    function togglePriority(task, button, taskId) {
+      // Find task in array
+      const taskObj = tasks.find(t => t.id === taskId);
+      if (!taskObj) return;
+      
+      // Toggle priority using operators
+      taskObj.priority = !taskObj.priority;
+      
+      // Update data attribute
+      task.dataset.priority = taskObj.priority;
+      
+      // Style updates via JS
+      if (taskObj.priority) {
+        task.style.borderLeft = '4px solid #f59e0b';
+        button.textContent = '⭐ High Priority';
+        button.style.background = '#f59e0b';
+      } else {
+        task.style.borderLeft = '';
+        button.textContent = '⭐ Set Priority';
+        button.style.background = '#111827';
+      }
+    }
+
+    // Function to toggle complete status
+    function toggleComplete(task, button, taskId) {
+      // Find task in array
+      const taskObj = tasks.find(t => t.id === taskId);
+      if (!taskObj) return;
+      
+      // Toggle completed using operators
+      taskObj.completed = !taskObj.completed;
+      
+      // Update data attribute
+      task.dataset.completed = taskObj.completed;
+      
+      // Style updates via JS
+      if (taskObj.completed) {
+        task.classList.add('completed');
+        button.textContent = 'Mark as Incomplete';
+      } else {
+        task.classList.remove('completed');
+        button.textContent = 'Mark as Completed';
+      }
+      
+      updateTaskCount();
+    }
+
+    // Function to delete task
+    function deleteTask(task, taskId) {
+      // Remove from array using filter
+      tasks = tasks.filter(t => t.id !== taskId);
+      
+      // Remove from DOM
+      task.remove();
+      
+      // Re-render to update counts
+      const activeFilter = document.querySelector('.filters button[style*="background: rgb(37, 99, 235)"]');
+      const filterType = activeFilter ? activeFilter.dataset.filter : 'all';
+      renderTasks(filterType);
+    }
+
+    function toggleEdit(task, button) {
+      const titleEl = task.querySelector('.task-title');
+      const descEl = task.querySelector('.task-desc');
+      const titleVal = titleEl.textContent;
+      const descVal = descEl.textContent;
+
+      // Replace with inputs
+      const titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.value = titleVal;
+      titleInput.className = 'task-title';
+
+      const descInput = document.createElement('textarea');
+      descInput.value = descVal;
+      descInput.className = 'task-desc';
+      descInput.style.minHeight = '72px';
+
+      titleEl.replaceWith(titleInput);
+      descEl.replaceWith(descInput);
+
+      // Switch Edit -> Save
+      button.textContent = 'Save';
+      button.classList.remove('edit');
+      button.classList.add('save');
+
+      // Focus at end
+      titleInput.focus();
+      titleInput.setSelectionRange(titleInput.value.length, titleInput.value.length);
+    }
+
+    // Function to save edited task
+    function saveEdit(task, button, taskId) {
+      const titleInputEl = task.querySelector('input.task-title');
+      const descInputEl = task.querySelector('textarea.task-desc');
+      const newTitle = titleInputEl.value.trim();
+      const newDesc = descInputEl.value.trim();
+      
+      // Form validation using control flow
+      if (!newTitle) {
+        titleInputEl.style.borderColor = '#ef4444';
+        titleInputEl.focus();
+        return;
+      }
+
+      // Find and update task in array
+      const taskObj = tasks.find(t => t.id === taskId);
+      if (taskObj) {
+        taskObj.title = newTitle;
+        taskObj.description = newDesc;
+      }
+
+      const titleEl = document.createElement('h3');
+      titleEl.className = 'task-title';
+      titleEl.textContent = newTitle;
+
+      const descEl = document.createElement('p');
+      descEl.className = 'task-desc';
+      descEl.textContent = newDesc;
+
+      titleInputEl.replaceWith(titleEl);
+      descInputEl.replaceWith(descEl);
+
+      // Style updates via JS - restore task styling
+      if (taskObj && taskObj.completed) {
+        task.classList.add('completed');
+      }
+      if (taskObj && taskObj.priority) {
+        task.style.borderLeft = '4px solid #f59e0b';
+      }
+
+      // Switch Save -> Edit
+      button.textContent = 'Edit';
+      button.classList.remove('save');
+      button.classList.add('edit');
+    }
+
+    // Function to escape HTML
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      initFilters();
+      renderTasks('all');
+      validateForm();
+    });
+  </script>
+</body>
+</html>
+
+
