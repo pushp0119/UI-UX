@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - TechFest 2025</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">TechFest 2025</div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="register.html" class="active">Register</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Participant Registration</h1>
+    <p>Register now to participate in TechFest 2025. Fill in your details and select the events you want to participate in.</p>
+
+    <form class="registration-form">
+      <h2>Personal Information</h2>
+      
+      <div class="form-row grid-2">
+        <div>
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Rajesh" required>
+        </div>
+        <div>
+          <label for="lastName">Last Name *</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Kumar" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" placeholder="rajesh.kumar@example.com" required>
+      </div>
+
+      <div class="form-row grid-2">
+        <div>
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" placeholder="9876543210" pattern="[0-9]{10}" required>
+        </div>
+        <div>
+          <label for="whatsapp">WhatsApp Number</label>
+          <input type="tel" id="whatsapp" name="whatsapp" placeholder="9876543210" pattern="[0-9]{10}">
+        </div>
+      </div>
+
+      <div class="form-row grid-2">
+        <div>
+          <label for="college">College/University *</label>
+          <input type="text" id="college" name="college" placeholder="IIT Delhi" required>
+        </div>
+        <div>
+          <label for="course">Course/Department *</label>
+          <input type="text" id="course" name="course" placeholder="Computer Science" required>
+        </div>
+      </div>
+
+      <div class="form-row grid-2">
+        <div>
+          <label for="year">Year of Study *</label>
+          <select id="year" name="year" required>
+            <option value="" selected disabled>Select year</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+            <option>Post Graduate</option>
+          </select>
+        </div>
+        <div>
+          <label for="rollNumber">Roll Number *</label>
+          <input type="text" id="rollNumber" name="rollNumber" placeholder="CS2024001" required>
+        </div>
+      </div>
+
+      <h2>Event Selection</h2>
+      
+      <div class="form-row">
+        <label>Select Events to Participate *</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="event1" name="events" value="Code Marathon">
+            <label for="event1">Code Marathon</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event2" name="events" value="Hackathon 24/7">
+            <label for="event2">Hackathon 24/7</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event3" name="events" value="Robo Race">
+            <label for="event3">Robo Race</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event4" name="events" value="Web Design Contest">
+            <label for="event4">Web Design Contest</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event5" name="events" value="App Development">
+            <label for="event5">App Development</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event6" name="events" value="E-Sports Tournament">
+            <label for="event6">E-Sports Tournament</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event7" name="events" value="Tech Quiz">
+            <label for="event7">Tech Quiz</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event8" name="events" value="Photography Contest">
+            <label for="event8">Photography Contest</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event9" name="events" value="IoT Innovation">
+            <label for="event9">IoT Innovation</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="event10" name="events" value="Paper Presentation">
+            <label for="event10">Paper Presentation</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="teamSize">Team Size (if applicable)</label>
+        <select id="teamSize" name="teamSize">
+          <option value="1">Individual (1 person)</option>
+          <option value="2">Team of 2</option>
+          <option value="3">Team of 3</option>
+          <option value="4">Team of 4</option>
+          <option value="5">Team of 5</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="teamMembers">Team Members (if team event)</label>
+        <textarea id="teamMembers" name="teamMembers" rows="3" placeholder="Enter names and roll numbers of team members separated by commas"></textarea>
+      </div>
+
+      <h2>Additional Information</h2>
+
+      <div class="form-row">
+        <label for="accommodation">Accommodation Required?</label>
+        <select id="accommodation" name="accommodation">
+          <option value="no">No</option>
+          <option value="yes">Yes, I need accommodation</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="dietary">Dietary Preferences</label>
+        <select id="dietary" name="dietary">
+          <option>Vegetarian</option>
+          <option>Non-Vegetarian</option>
+          <option>Vegan</option>
+          <option>No Preference</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="specialNeeds">Special Requirements or Notes</label>
+        <textarea id="specialNeeds" name="specialNeeds" rows="4" placeholder="Any special requirements, accessibility needs, or additional information"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label class="checkbox-label">
+          <input type="checkbox" required>
+          I agree to the <a href="#" class="link">Terms and Conditions</a> and <a href="#" class="link">Privacy Policy</a> *
+        </label>
+      </div>
+
+      <div class="form-row">
+        <button type="submit" class="btn-primary">Submit Registration</button>
+        <button type="reset" class="btn-secondary">Reset Form</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 TechFest. All rights reserved.</p>
+    <p>Organized by CCS, TIET</p>
+  </footer>
+</body>
+</html>
+
