@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 2: Array Operations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .array-display {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    button {
+      background: #2196F3;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #1976D2;
+    }
+    .results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 4px;
+      border-left: 4px solid #4CAF50;
+    }
+    .result-item {
+      margin: 10px 0;
+      font-size: 16px;
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+    }
+    .result-item strong {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Task 2: Array Operations</h1>
+    <p>Array of 5 numbers: [45, 12, 89, 34, 67]</p>
+    
+    <div class="array-display" id="arrayDisplay">[45, 12, 89, 34, 67]</div>
+    
+    <button onclick="findLargestSmallest()">Find Largest & Smallest</button>
+    <button onclick="sortAscending()">Sort Ascending</button>
+    <button onclick="sortDescending()">Sort Descending</button>
+    <button onclick="resetArray()">Reset Array</button>
+    
+    <div id="results" class="results" style="display: none;">
+      <h3>Results:</h3>
+      <div id="resultContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // Create array of 5 numbers
+    let numbers = [45, 12, 89, 34, 67];
+    const originalArray = [45, 12, 89, 34, 67];
+    
+    function updateDisplay() {
+      document.getElementById('arrayDisplay').textContent = '[' + numbers.join(', ') + ']';
+    }
+    
+    function findLargestSmallest() {
+      // Find largest number
+      const largest = Math.max(...numbers);
+      
+      // Find smallest number
+      const smallest = Math.min(...numbers);
+      
+      // Display results
+      const resultsDiv = document.getElementById('results');
+      const resultContent = document.getElementById('resultContent');
+      
+      resultContent.innerHTML = `
+        <div class="result-item"><strong>Largest Number:</strong> ${largest}</div>
+        <div class="result-item"><strong>Smallest Number:</strong> ${smallest}</div>
+      `;
+      
+      resultsDiv.style.display = 'block';
+    }
+    
+    function sortAscending() {
+      // Sort array in ascending order
+      numbers = [...originalArray].sort((a, b) => a - b);
+      updateDisplay();
+      
+      const resultsDiv = document.getElementById('results');
+      const resultContent = document.getElementById('resultContent');
+      
+      resultContent.innerHTML = `
+        <div class="result-item"><strong>Ascending Order:</strong> [${numbers.join(', ')}]</div>
+      `;
+      
+      resultsDiv.style.display = 'block';
+    }
+    
+    function sortDescending() {
+      // Sort array in descending order
+      numbers = [...originalArray].sort((a, b) => b - a);
+      updateDisplay();
+      
+      const resultsDiv = document.getElementById('results');
+      const resultContent = document.getElementById('resultContent');
+      
+      resultContent.innerHTML = `
+        <div class="result-item"><strong>Descending Order:</strong> [${numbers.join(', ')}]</div>
+      `;
+      
+      resultsDiv.style.display = 'block';
+    }
+    
+    function resetArray() {
+      numbers = [...originalArray];
+      updateDisplay();
+      document.getElementById('results').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
+

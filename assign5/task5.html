@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 5: Array Methods</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .array-display {
+      background: #fff3e0;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    button {
+      background: #FF9800;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #F57C00;
+    }
+    .results {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff3e0;
+      border-radius: 4px;
+      border-left: 4px solid #FF9800;
+    }
+    .result-item {
+      margin: 10px 0;
+      font-size: 16px;
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+    }
+    .result-item strong {
+      color: #333;
+    }
+    .step {
+      margin: 15px 0;
+      padding: 10px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      border-left: 3px solid #FF9800;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Task 5: Array Methods (filter, map, reduce)</h1>
+    <p>Original array: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</p>
+    
+    <div class="array-display" id="arrayDisplay">[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</div>
+    
+    <button onclick="processArray()">Process Array</button>
+    
+    <div id="results" class="results" style="display: none;">
+      <h3>Processing Steps:</h3>
+      <div id="resultContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // Original array
+    const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    
+    function processArray() {
+      // Step 1: Remove all odd numbers using filter()
+      const evenNumbers = originalArray.filter(num => num % 2 === 0);
+      
+      // Step 2: Multiply the remaining numbers by 2 using map()
+      const multipliedNumbers = evenNumbers.map(num => num * 2);
+      
+      // Step 3: Find the sum of the resulting numbers using reduce()
+      const sum = multipliedNumbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      
+      // Display results
+      const resultsDiv = document.getElementById('results');
+      const resultContent = document.getElementById('resultContent');
+      
+      resultContent.innerHTML = `
+        <div class="step">
+          <div class="result-item"><strong>Step 1 - Remove odd numbers (filter):</strong></div>
+          <div class="result-item">Original: [${originalArray.join(', ')}]</div>
+          <div class="result-item">After filter (even only): [${evenNumbers.join(', ')}]</div>
+        </div>
+        
+        <div class="step">
+          <div class="result-item"><strong>Step 2 - Multiply by 2 (map):</strong></div>
+          <div class="result-item">After map (multiplied by 2): [${multipliedNumbers.join(', ')}]</div>
+        </div>
+        
+        <div class="step">
+          <div class="result-item"><strong>Step 3 - Find sum (reduce):</strong></div>
+          <div class="result-item">Sum of resulting numbers: <strong>${sum}</strong></div>
+        </div>
+        
+        <div class="step" style="background: #e8f5e9; border-left-color: #4CAF50;">
+          <div class="result-item"><strong>Final Result:</strong> ${sum}</div>
+        </div>
+      `;
+      
+      resultsDiv.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
+
